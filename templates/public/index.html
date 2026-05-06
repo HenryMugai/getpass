@@ -1,0 +1,247 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+GetPass | Discover Amazing Events
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/public/index.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   HERO SECTION
+========================================= -->
+<section class="hero-section">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-container">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+
+                <i class="fas fa-bolt"></i>
+
+                LIVE EXPERIENCES
+
+            </span>
+
+            <h1>
+
+                Discover Amazing
+                <span>Events</span>
+                Near You
+
+            </h1>
+
+            <p>
+
+                Book concerts, festivals, conferences,
+                nightlife and premium live experiences
+                with secure digital ticketing.
+
+            </p>
+
+            <!-- HERO BUTTONS -->
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('public.events') }}"
+                   class="hero-primary-btn">
+
+                    <i class="fas fa-calendar-alt"></i>
+
+                    Explore Events
+
+                </a>
+
+                <a href="#featured-events"
+                   class="hero-secondary-btn">
+
+                    View Trending
+
+                </a>
+
+            </div>
+
+            <!-- HERO STATS -->
+            <div class="hero-stats">
+
+                <div class="hero-stat-card">
+
+                    <h3>{{ total_events }}</h3>
+
+                    <span>
+                        Published Events
+                    </span>
+
+                </div>
+
+                <div class="hero-stat-card">
+
+                    <h3>{{ total_tickets }}</h3>
+
+                    <span>
+                        Tickets Issued
+                    </span>
+
+                </div>
+
+                <div class="hero-stat-card">
+
+                    <h3>24/7</h3>
+
+                    <span>
+                        Customer Support
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   FEATURED EVENTS
+========================================= -->
+<section class="featured-section"
+         id="featured-events">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="section-tag">
+
+                TRENDING EVENTS
+
+            </span>
+
+            <h2>
+
+                Upcoming Experiences
+
+            </h2>
+
+            <p>
+
+                Browse upcoming events currently
+                available on the platform.
+
+            </p>
+
+        </div>
+
+        <!-- EVENTS GRID -->
+        <div class="featured-grid">
+
+            {% if featured_events %}
+
+                {% for event in featured_events %}
+
+                <div class="event-card">
+
+                    <!-- EVENT IMAGE -->
+                    <div class="event-image">
+
+                        <img src="{{ event.event_image }}"
+                             alt="{{ event.title }}">
+
+                        <div class="event-price">
+
+                            {% if event.starting_price %}
+
+                                From KSh {{ "{:,.0f}".format(event.starting_price) }}
+
+                            {% else %}
+
+                                Free
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- EVENT CONTENT -->
+                    <div class="event-content">
+
+                        <span class="event-category">
+
+                            {{ event.category if event.category else 'Event' }}
+
+                        </span>
+
+                        <h3>
+
+                            {{ event.title }}
+
+                        </h3>
+
+                        <p>
+
+                            <i class="fas fa-map-marker-alt"></i>
+
+                            {{ event.location }}
+
+                        </p>
+
+                        <p class="event-date">
+
+                            <i class="fas fa-calendar"></i>
+
+                            {{ event.start_date.strftime('%d %b %Y') }}
+
+                        </p>
+
+                        <a href="/events/{{ event.slug }}"
+                           class="event-btn">
+
+                            Get Ticket
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <!-- EMPTY STATE -->
+                <div class="empty-events">
+
+                    <i class="fas fa-calendar-times"></i>
+
+                    <h3>
+
+                        No Published Events Yet
+
+                    </h3>
+
+                    <p>
+
+                        Events created and published by organisers
+                        will appear here automatically.
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

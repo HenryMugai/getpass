@@ -1,0 +1,339 @@
+{% extends 'agent/base.html' %}
+
+{% block title %}
+Check-In Terminal | GetPass
+{% endblock %}
+
+{% block page_title %}
+Live Check-In Terminal
+{% endblock %}
+
+{% block page_description %}
+Validate attendee tickets and authorize entry.
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/agent/checkin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   EVENT HEADER
+========================================= -->
+
+<section class="event-header-card">
+
+    <div class="event-banner">
+
+        {% if event.event_image %}
+
+        <img src="{{ url_for('static', filename=event.event_image) }}"
+             alt="{{ event.title }}">
+
+        {% else %}
+
+        <div class="event-placeholder">
+
+            <i class="fas fa-calendar"></i>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="event-details">
+
+        <span class="live-label">
+
+            LIVE EVENT
+
+        </span>
+
+        <h2>
+
+            {{ event.title }}
+
+        </h2>
+
+        <div class="event-meta">
+
+            <span>
+
+                <i class="fas fa-location-dot"></i>
+
+                {{ event.location or 'Venue Pending' }}
+
+            </span>
+
+            <span>
+
+                <i class="fas fa-clock"></i>
+
+                {{ event.start_date.strftime('%d %b %Y • %I:%M %p') }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   STATS
+========================================= -->
+
+<section class="stats-grid">
+
+    <div class="stats-card">
+
+        <h3>
+
+            {{ stats.total_attendees or 0 }}
+
+        </h3>
+
+        <span>
+
+            Total Attendees
+
+        </span>
+
+    </div>
+
+    <div class="stats-card">
+
+        <h3>
+
+            {{ stats.checked_in or 0 }}
+
+        </h3>
+
+        <span>
+
+            Checked In
+
+        </span>
+
+    </div>
+
+    <div class="stats-card">
+
+        <h3>
+
+            {{ (stats.total_attendees or 0) - (stats.checked_in or 0) }}
+
+        </h3>
+
+        <span>
+
+            Remaining
+
+        </span>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   CHECKIN AREA
+========================================= -->
+
+<section class="checkin-layout">
+
+    <!-- CHECKIN FORM -->
+    <div class="checkin-card">
+
+        <div class="card-header">
+
+            <span class="card-tag">
+
+                ENTRY VALIDATION
+
+            </span>
+
+            <h2>
+
+                Scan Ticket
+
+            </h2>
+
+        </div>
+
+        <form method="POST"
+              class="checkin-form">
+
+            <div class="form-group">
+
+                <label>
+
+                    Ticket Code
+
+                </label>
+
+                <input type="text"
+                       name="ticket_code"
+                       placeholder="Enter or scan ticket code"
+                       required>
+
+            </div>
+
+            <button type="submit"
+                    class="scan-btn">
+
+                <i class="fas fa-qrcode"></i>
+
+                Validate Ticket
+
+            </button>
+
+        </form>
+
+        <!-- RESULT -->
+        {% if validation_status %}
+
+        <div class="validation-result {{ validation_status }}">
+
+            {% if validation_status == 'approved' %}
+
+                <i class="fas fa-circle-check"></i>
+
+                <h3>
+
+                    ENTRY APPROVED
+
+                </h3>
+
+                <p>
+
+                    {{ attendee.full_name }}
+
+                </p>
+
+                <span>
+
+                    {{ attendee.ticket_name }}
+
+                </span>
+
+            {% elif validation_status == 'used' %}
+
+                <i class="fas fa-triangle-exclamation"></i>
+
+                <h3>
+
+                    ALREADY CHECKED IN
+
+                </h3>
+
+                <p>
+
+                    {{ attendee.full_name }}
+
+                </p>
+
+            {% else %}
+
+                <i class="fas fa-circle-xmark"></i>
+
+                <h3>
+
+                    INVALID TICKET
+
+                </h3>
+
+                <p>
+
+                    No attendee found.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- RECENT CHECKINS -->
+    <div class="recent-card">
+
+        <div class="card-header">
+
+            <span class="card-tag">
+
+                LIVE FEED
+
+            </span>
+
+            <h2>
+
+                Recent Check-Ins
+
+            </h2>
+
+        </div>
+
+        {% if recent_checkins %}
+
+            {% for item in recent_checkins %}
+
+            <div class="checkin-item">
+
+                <div class="avatar">
+
+                    {{ item.full_name[0] }}
+
+                </div>
+
+                <div class="checkin-info">
+
+                    <h4>
+
+                        {{ item.full_name }}
+
+                    </h4>
+
+                    <span>
+
+                        {{ item.ticket_name }}
+
+                    </span>
+
+                </div>
+
+                <div class="time">
+
+                    {{ item.checked_in_at.strftime('%I:%M %p') }}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-feed">
+
+            <i class="fas fa-user-check"></i>
+
+            <p>
+
+                No attendees checked in yet.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

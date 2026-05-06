@@ -1,0 +1,363 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}
+Agents | GetPass Admin
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin/agent.css') }}">
+{% endblock %}
+
+{% block page_title %}
+Agents
+{% endblock %}
+
+{% block page_description %}
+Manage operational agents and event check-in assignments.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   CREATE AGENT
+========================================= -->
+<section class="agents-form-section">
+
+    <div class="agents-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+
+                    AGENT MANAGEMENT
+
+                </span>
+
+                <h2>
+
+                    Create Agent
+
+                </h2>
+
+                <p class="card-description">
+
+                    Add operational agents and assign them to events.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+        <form method="POST"
+              class="agent-form">
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input type="text"
+                       name="full_name"
+                       placeholder="Enter full name"
+                       required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input type="email"
+                       name="email"
+                       placeholder="Enter email"
+                       required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input type="text"
+                       name="phone"
+                       placeholder="Enter phone number">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Create password"
+                       required>
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Assign Event
+                </label>
+
+                <select name="assigned_event">
+
+                    <option value="">
+                        Select Event
+                    </option>
+
+                    {% for event in events %}
+
+                    <option value="{{ event.id }}">
+
+                        {{ event.title }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <button type="submit"
+                    class="submit-btn">
+
+                <i class="fas fa-user-plus"></i>
+
+                Create Agent
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   AGENTS TABLE
+========================================= -->
+<section class="agents-table-section">
+
+    <div class="agents-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+
+                    EVENT OPERATIONS
+
+                </span>
+
+                <h2>
+
+                    Operational Agents
+
+                </h2>
+
+                <p class="card-description">
+
+                    Manage event access and attendee check-in agents.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="agents-table-wrapper">
+
+            <table class="agents-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Agent
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Assigned Event
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Last Login
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for agent in agents %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="agent-info">
+
+                                <div class="agent-avatar">
+
+                                    {{ agent.full_name[0] }}
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+
+                                        {{ agent.full_name }}
+
+                                    </h4>
+
+                                    <span>
+
+                                        {{ agent.phone if agent.phone else 'No Phone' }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ agent.email }}
+
+                        </td>
+
+                        <td>
+
+                            {{ agent.assigned_event if agent.assigned_event else 'Unassigned' }}
+
+                        </td>
+
+                        <td>
+
+                            {% if agent.is_active %}
+
+                            <span class="status-badge active">
+
+                                Active
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="status-badge suspended">
+
+                                Suspended
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if agent.last_login %}
+
+                                {{ agent.last_login.strftime('%d %b %Y') }}
+
+                            {% else %}
+
+                                Never
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <div class="table-actions">
+
+                                {% if agent.is_active %}
+
+                                <a href="/admin/agents?suspend={{ agent.id }}"
+                                   class="action-btn suspend">
+
+                                    Suspend
+
+                                </a>
+
+                                {% else %}
+
+                                <a href="/admin/agents?activate={{ agent.id }}"
+                                   class="action-btn activate">
+
+                                    Activate
+
+                                </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- =========================================
+       META
+    ========================================== -->
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="GetPass - Modern Smart Ticketing Platform">
+
+    <title>
+        {% block title %}
+            GetPass | Smart Ticketing
+        {% endblock %}
+    </title>
+
+    <!-- =========================================
+       GOOGLE FONTS
+    ========================================== -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- =========================================
+       FONT AWESOME
+    ========================================== -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- =========================================
+       GLOBAL CSS
+    ========================================== -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/public/base.css') }}">
+
+    <!-- =========================================
+       PAGE CSS
+    ========================================== -->
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- =========================================
+       TOP BAR
+    ========================================== -->
+    <div class="top-bar">
+
+        <div class="container top-bar-container">
+
+            <div class="top-left">
+
+                <span>
+
+                    <i class="fas fa-envelope"></i>
+
+                    support@getpass.com
+
+                </span>
+
+                <span>
+
+                    <i class="fas fa-phone"></i>
+
+                    +254 700 000 000
+
+                </span>
+
+            </div>
+
+            <div class="top-right">
+
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================
+       HEADER
+    ========================================== -->
+    <header class="site-header"
+            id="mainHeader">
+
+        <div class="header-overlay"></div>
+
+        <div class="container header-container">
+
+            <!-- ================= LOGO ================= -->
+            <a href="{{ url_for('public.index') }}"
+               class="logo-wrapper">
+
+                <div class="logo-icon">
+
+                    <i class="fas fa-ticket"></i>
+
+                </div>
+
+                <div class="logo-texts">
+
+                    <h2>GetPass</h2>
+
+                    <span>
+                        Smart Ticketing
+                    </span>
+
+                </div>
+
+            </a>
+
+            <!-- ================= NAVIGATION ================= -->
+            <nav class="main-nav">
+
+                <a href="{{ url_for('public.index') }}"
+                   class="nav-link {% if request.endpoint == 'public.index' %}active{% endif %}">
+
+                    Home
+
+                </a>
+
+                <a href="{{ url_for('public.events') }}"
+                   class="nav-link {% if request.endpoint == 'public.events' %}active{% endif %}">
+
+                    Events
+
+                </a>
+
+            </nav>
+
+            <!-- ================= ACTIONS ================= -->
+            <div class="header-actions">
+
+                <a href="{{ url_for('auth.login') }}"
+                   class="view-events-btn">
+
+                    <i class="fas fa-calendar"></i>
+
+                    View Events
+
+                </a>
+
+                <!-- MOBILE TOGGLE -->
+                <button class="mobile-toggle"
+                        id="mobileToggle">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- =========================================
+       MOBILE NAVIGATION
+    ========================================== -->
+    <div class="mobile-overlay"
+         id="mobileOverlay"></div>
+
+    <div class="mobile-menu"
+         id="mobileMenu">
+
+        <!-- MOBILE HEADER -->
+        <div class="mobile-menu-header">
+
+            <div class="mobile-brand">
+
+                <div class="logo-icon">
+
+                    <i class="fas fa-ticket"></i>
+
+                </div>
+
+                <div class="logo-texts">
+
+                    <h2>GetPass</h2>
+
+                    <span>
+                        Smart Ticketing
+                    </span>
+
+                </div>
+
+            </div>
+
+            <button id="mobileClose">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+        <!-- MOBILE LINKS -->
+        <div class="mobile-links">
+
+            <a href="{{ url_for('public.index') }}">
+
+                <i class="fas fa-house"></i>
+
+                Home
+
+            </a>
+
+            <a href="{{ url_for('public.events') }}">
+
+                <i class="fas fa-calendar"></i>
+
+                Events
+
+            </a>
+
+        </div>
+
+        <!-- MOBILE BUTTON -->
+        <a href="{{ url_for('auth.login') }}"
+           class="mobile-events-btn">
+
+            Explore Events
+
+        </a>
+
+    </div>
+
+    <!-- =========================================
+       MAIN CONTENT
+    ========================================== -->
+    <main class="main-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- =========================================
+       FOOTER
+    ========================================== -->
+    <footer class="site-footer">
+
+        <div class="container footer-container">
+
+            <!-- FOOTER BRAND -->
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <div class="logo-icon">
+
+                        <i class="fas fa-ticket"></i>
+
+                    </div>
+
+                    <div class="logo-texts">
+
+                        <h3>GetPass</h3>
+
+                        <span>
+                            Smart Ticketing
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <p>
+
+                    Discover amazing concerts, festivals,
+                    conferences and unforgettable experiences
+                    with the next generation ticketing platform.
+
+                </p>
+
+            </div>
+
+            <!-- FOOTER NAV -->
+            <div class="footer-links">
+
+                <h4>
+                    Navigation
+                </h4>
+
+                <a href="{{ url_for('public.index') }}">
+                    Home
+                </a>
+
+                <a href="{{ url_for('public.events') }}">
+                    Events
+                </a>
+
+            </div>
+
+            <!-- FOOTER SUPPORT -->
+            <div class="footer-links">
+
+                <h4>
+                    Support
+                </h4>
+
+                <a href="#">
+                    Help Center
+                </a>
+
+                <a href="#">
+                    Contact Us
+                </a>
+
+                <a href="#">
+                    Privacy Policy
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER BOTTOM -->
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 GetPass. All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- =========================================
+       JAVASCRIPT
+    ========================================== -->
+    <script>
+
+        // =========================================
+        // MOBILE MENU
+        // =========================================
+        const mobileToggle =
+            document.getElementById('mobileToggle');
+
+        const mobileMenu =
+            document.getElementById('mobileMenu');
+
+        const mobileOverlay =
+            document.getElementById('mobileOverlay');
+
+        const mobileClose =
+            document.getElementById('mobileClose');
+
+        mobileToggle.addEventListener('click', () => {
+
+            mobileMenu.classList.add('active');
+
+            mobileOverlay.classList.add('active');
+
+            document.body.classList.add('menu-open');
+
+        });
+
+        function closeMenu() {
+
+            mobileMenu.classList.remove('active');
+
+            mobileOverlay.classList.remove('active');
+
+            document.body.classList.remove('menu-open');
+
+        }
+
+        mobileClose.addEventListener('click', closeMenu);
+
+        mobileOverlay.addEventListener('click', closeMenu);
+
+        // =========================================
+        // HEADER SCROLL EFFECT
+        // =========================================
+        const header =
+            document.getElementById('mainHeader');
+
+        window.addEventListener('scroll', () => {
+
+            if (window.scrollY > 20) {
+
+                header.classList.add('scrolled');
+
+            } else {
+
+                header.classList.remove('scrolled');
+            }
+
+        });
+
+    </script>
+
+    <!-- =========================================
+       PAGE JS
+    ========================================== -->
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+</html>

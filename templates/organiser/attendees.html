@@ -1,0 +1,345 @@
+{% extends 'organiser/base.html' %}
+
+{% block title %}
+Attendees | GetPass
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/organiser/attendees.css') }}">
+{% endblock %}
+
+{% block page_title %}
+Attendees
+{% endblock %}
+
+{% block page_description %}
+Monitor attendee registrations and check-in analytics.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   STATS
+========================================= -->
+
+<section class="stats-grid">
+
+    <div class="stats-card">
+
+        <h3>
+
+            {{ total_attendees }}
+
+        </h3>
+
+        <span>
+
+            Total Attendees
+
+        </span>
+
+    </div>
+
+    <div class="stats-card checked">
+
+        <h3>
+
+            {{ checked_in }}
+
+        </h3>
+
+        <span>
+
+            Checked In
+
+        </span>
+
+    </div>
+
+    <div class="stats-card pending">
+
+        <h3>
+
+            {{ pending }}
+
+        </h3>
+
+        <span>
+
+            Pending
+
+        </span>
+
+    </div>
+
+    <div class="stats-card rate">
+
+        <h3>
+
+            {{ attendance_rate }}%
+
+        </h3>
+
+        <span>
+
+            Attendance Rate
+
+        </span>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   FILTERS
+========================================= -->
+
+<section class="filters-card">
+
+    <form method="GET"
+          class="filters-form">
+
+        <div class="form-group">
+
+            <label>
+
+                Event
+
+            </label>
+
+            <select name="event">
+
+                <option value="">
+
+                    All Events
+
+                </option>
+
+                {% for event in events %}
+
+                <option value="{{ event.id }}"
+                    {% if selected_event == event.id|string %}
+                        selected
+                    {% endif %}>
+
+                    {{ event.title }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+
+                Search
+
+            </label>
+
+            <input type="text"
+                   name="search"
+                   value="{{ search }}"
+                   placeholder="Name, email or ticket code">
+
+        </div>
+
+        <button type="submit"
+                class="filter-btn">
+
+            <i class="fas fa-filter"></i>
+
+            Filter
+
+        </button>
+
+        <a href="?export=csv{% if selected_event %}&event={{ selected_event }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+           class="export-btn">
+
+            <i class="fas fa-file-csv"></i>
+
+            Export CSV
+
+        </a>
+
+    </form>
+
+</section>
+
+<!-- =========================================
+   TABLE
+========================================= -->
+
+<section class="table-card">
+
+    <div class="table-wrapper">
+
+        <table class="attendees-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Attendee
+                    </th>
+
+                    <th>
+                        Event
+                    </th>
+
+                    <th>
+                        Ticket
+                    </th>
+
+                    <th>
+                        Ticket Code
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Registered
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% if attendees %}
+
+                    {% for attendee in attendees %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="attendee-info">
+
+                                <div class="attendee-avatar">
+
+                                    {{ attendee.full_name[0] }}
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+
+                                        {{ attendee.full_name }}
+
+                                    </h4>
+
+                                    <span>
+
+                                        {{ attendee.email }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ attendee.event_title }}
+
+                        </td>
+
+                        <td>
+
+                            {{ attendee.ticket_name }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="ticket-code">
+
+                                {{ attendee.ticket_code }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if attendee.checkin_status == 1 %}
+
+                            <span class="status-badge checked">
+
+                                Checked In
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="status-badge pending">
+
+                                Pending
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ attendee.created_at.strftime('%d %b %Y') }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="empty-state">
+
+                            <i class="fas fa-users-slash"></i>
+
+                            <h3>
+
+                                No Attendees Found
+
+                            </h3>
+
+                            <p>
+
+                                No attendee records available.
+
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

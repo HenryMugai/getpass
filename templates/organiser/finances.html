@@ -1,0 +1,410 @@
+{% extends 'organiser/base.html' %}
+
+{% block title %}
+Finances & Revenue | GetPass
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/organiser/finances.css') }}">
+{% endblock %}
+
+{% block page_title %}
+Finances & Revenue
+{% endblock %}
+
+{% block page_description %}
+Track ticket sales, revenue and platform deductions.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   STATS
+========================================= -->
+
+<section class="finance-stats">
+
+    <div class="finance-card gross">
+
+        <span>
+
+            Gross Revenue
+
+        </span>
+
+        <h2>
+
+            KES {{ "{:,.0f}".format(gross_revenue) }}
+
+        </h2>
+
+    </div>
+
+    <div class="finance-card fees">
+
+        <span>
+
+            Platform Fees (7%)
+
+        </span>
+
+        <h2>
+
+            KES {{ "{:,.0f}".format(total_fees) }}
+
+        </h2>
+
+    </div>
+
+    <div class="finance-card net">
+
+        <span>
+
+            Net Revenue
+
+        </span>
+
+        <h2>
+
+            KES {{ "{:,.0f}".format(net_revenue) }}
+
+        </h2>
+
+    </div>
+
+    <div class="finance-card tickets">
+
+        <span>
+
+            Tickets Sold
+
+        </span>
+
+        <h2>
+
+            {{ total_tickets }}
+
+        </h2>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   EVENT BREAKDOWN
+========================================= -->
+
+<section class="finance-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-tag">
+
+                EVENT PERFORMANCE
+
+            </span>
+
+            <h2>
+
+                Revenue Breakdown
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="finance-grid">
+
+        {% if event_finances %}
+
+            {% for event in event_finances %}
+
+            <div class="event-finance-card">
+
+                <div class="event-banner">
+
+                    {% if event.event_image %}
+
+                    <img src="{{ url_for('static', filename=event.event_image) }}"
+                         alt="{{ event.title }}">
+
+                    {% else %}
+
+                    <div class="event-placeholder">
+
+                        <i class="fas fa-image"></i>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="event-body">
+
+                    <h3>
+
+                        {{ event.title }}
+
+                    </h3>
+
+                    <div class="finance-meta">
+
+                        <div>
+
+                            <span>
+
+                                Tickets Sold
+
+                            </span>
+
+                            <strong>
+
+                                {{ event.tickets_sold }}
+
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+
+                                Gross Revenue
+
+                            </span>
+
+                            <strong>
+
+                                KES {{ "{:,.0f}".format(event.gross_revenue) }}
+
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+
+                                Platform Fee
+
+                            </span>
+
+                            <strong class="fee">
+
+                                KES {{ "{:,.0f}".format(event.platform_fee) }}
+
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+
+                                Net Revenue
+
+                            </span>
+
+                            <strong class="net-text">
+
+                                KES {{ "{:,.0f}".format(event.net_revenue) }}
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <i class="fas fa-wallet"></i>
+
+            <h3>
+
+                No Revenue Data
+
+            </h3>
+
+            <p>
+
+                Revenue analytics will appear once tickets are sold.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   RECENT SALES
+========================================= -->
+
+<section class="finance-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-tag">
+
+                LIVE SALES
+
+            </span>
+
+            <h2>
+
+                Recent Ticket Purchases
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="sales-table-wrapper">
+
+        <table class="sales-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Buyer
+                    </th>
+
+                    <th>
+                        Event
+                    </th>
+
+                    <th>
+                        Ticket
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Fee
+                    </th>
+
+                    <th>
+                        Net
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% if recent_sales %}
+
+                    {% for sale in recent_sales %}
+
+                    {% set fee = sale.price * 0.07 %}
+                    {% set net = sale.price - fee %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ sale.full_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ sale.event_title }}
+
+                        </td>
+
+                        <td>
+
+                            {{ sale.ticket_name }}
+
+                        </td>
+
+                        <td>
+
+                            KES {{ "{:,.0f}".format(sale.price) }}
+
+                        </td>
+
+                        <td class="fee-text">
+
+                            KES {{ "{:,.0f}".format(fee) }}
+
+                        </td>
+
+                        <td class="net-text">
+
+                            KES {{ "{:,.0f}".format(net) }}
+
+                        </td>
+
+                        <td>
+
+                            {{ sale.created_at.strftime('%d %b %Y') }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7">
+
+                        <div class="empty-state small">
+
+                            <i class="fas fa-chart-line"></i>
+
+                            <h3>
+
+                                No Sales Yet
+
+                            </h3>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

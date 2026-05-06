@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block title %}
+        Agent Panel | GetPass
+        {% endblock %}
+
+    </title>
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- BASE CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/agent/base.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/agent/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/agent/checkin.css') }}">
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body>
+
+<div class="agent-layout">
+
+    <!-- =========================================
+       SIDEBAR
+    ========================================= -->
+
+    <aside class="agent-sidebar"
+           id="agentSidebar">
+
+        <!-- LOGO -->
+        <div class="sidebar-logo">
+
+            <a href="/agent">
+
+                <div class="logo-icon">
+
+                    <i class="fas fa-qrcode"></i>
+
+                </div>
+
+                <div class="logo-text">
+
+                    <h2>GetPass</h2>
+
+                    <span>Agent Portal</span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- NAVIGATION -->
+        <nav class="sidebar-nav">
+
+            <span class="nav-title">
+
+                OPERATIONS
+
+            </span>
+
+            <a href="/agent"
+               class="nav-link">
+
+                <i class="fas fa-wave-square"></i>
+
+                <span>
+
+                    Dashboard
+
+                </span>
+
+            </a>
+
+            <a href="/agent/checkin"
+               class="nav-link">
+
+                <i class="fas fa-ticket"></i>
+
+                <span>
+
+                    Check-In Scanner
+
+                </span>
+
+            </a>
+
+        </nav>
+
+        <!-- FOOTER -->
+        <div class="sidebar-footer">
+
+            <div class="sidebar-user">
+
+                <div class="sidebar-avatar">
+
+                    {% if session.get('full_name') %}
+
+                        {{ session.get('full_name')[0] }}
+
+                    {% else %}
+
+                        A
+
+                    {% endif %}
+
+                </div>
+
+                <div class="sidebar-user-info">
+
+                    <h4>
+
+                        {{ session.get('full_name', 'Agent') }}
+
+                    </h4>
+
+                    <span>
+
+                        Event Operations
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <a href="/auth/logout"
+               class="logout-btn">
+
+                <i class="fas fa-arrow-right-from-bracket"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- =========================================
+       MAIN CONTENT
+    ========================================= -->
+
+    <main class="agent-main">
+
+        <!-- TOPBAR -->
+        <header class="agent-topbar">
+
+            <div class="topbar-left">
+
+                <button class="sidebar-toggle"
+                        id="sidebarToggle">
+
+                    <i class="fas fa-bars"></i>
+
+                </button>
+
+                <div class="topbar-page">
+
+                    <h1>
+
+                        {% block page_title %}
+                        Agent Dashboard
+                        {% endblock %}
+
+                    </h1>
+
+                    <p>
+
+                        {% block page_description %}
+                        Live attendee validation and event operations.
+                        {% endblock %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="live-badge">
+
+                <span class="live-dot"></span>
+
+                LIVE
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+        <section class="agent-content">
+
+            <!-- ALERT -->
+            <div class="agent-alert">
+
+                <div class="alert-icon">
+
+                    <i class="fas fa-shield-halved"></i>
+
+                </div>
+
+                <div class="alert-content">
+
+                    <h4>
+
+                        Secure Event Access
+
+                    </h4>
+
+                    <p>
+
+                        Event attendee access automatically unlocks
+                        on the official event day only.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% block content %}{% endblock %}
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- MOBILE OVERLAY -->
+<div class="sidebar-overlay"
+     id="sidebarOverlay"></div>
+
+<!-- SIDEBAR SCRIPT -->
+<script>
+
+const sidebar =
+    document.getElementById('agentSidebar');
+
+const sidebarToggle =
+    document.getElementById('sidebarToggle');
+
+const sidebarOverlay =
+    document.getElementById('sidebarOverlay');
+
+sidebarToggle.addEventListener('click', () => {
+
+    sidebar.classList.toggle('active');
+
+    sidebarOverlay.classList.toggle('active');
+
+});
+
+sidebarOverlay.addEventListener('click', () => {
+
+    sidebar.classList.remove('active');
+
+    sidebarOverlay.classList.remove('active');
+
+});
+
+</script>
+
+</body>
+</html>

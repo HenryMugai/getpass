@@ -1,0 +1,388 @@
+{% extends 'agent/base.html' %}
+
+{% block title %}
+Agent Dashboard | GetPass
+{% endblock %}
+
+{% block page_title %}
+Live Event Operations
+{% endblock %}
+
+{% block page_description %}
+Manage attendee check-ins for assigned events.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   ACTIVE EVENTS
+========================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-tag">
+
+                TODAY'S EVENTS
+
+            </span>
+
+            <h2>
+
+                Active Event Assignments
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="events-grid">
+
+        {% if today_events %}
+
+            {% for event in today_events %}
+
+            {% set checked = event.checked_in or 0 %}
+            {% set total = event.attendees_count or 0 %}
+
+            <div class="event-card live">
+
+                <div class="event-banner">
+
+                    {% if event.event_image %}
+
+                    <img src="{{ url_for('static', filename=event.event_image) }}"
+                         alt="{{ event.title }}">
+
+                    {% else %}
+
+                    <div class="event-placeholder">
+
+                        <i class="fas fa-calendar"></i>
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="live-badge-card">
+
+                        LIVE NOW
+
+                    </div>
+
+                </div>
+
+                <div class="event-body">
+
+                    <h3>
+
+                        {{ event.title }}
+
+                    </h3>
+
+                    <div class="event-meta">
+
+                        <span>
+
+                            <i class="fas fa-location-dot"></i>
+
+                            {{ event.location or 'Venue Pending' }}
+
+                        </span>
+
+                        <span>
+
+                            <i class="fas fa-clock"></i>
+
+                            {{ event.start_date.strftime('%I:%M %p') }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="event-stats">
+
+                        <div>
+
+                            <strong>
+
+                                {{ total }}
+
+                            </strong>
+
+                            <span>
+
+                                Attendees
+
+                            </span>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+
+                                {{ checked }}
+
+                            </strong>
+
+                            <span>
+
+                                Checked In
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="progress-wrapper">
+
+                        {% if total > 0 %}
+
+                            {% set progress = ((checked / total) * 100) | round %}
+
+                        {% else %}
+
+                            {% set progress = 0 %}
+
+                        {% endif %}
+
+                        <div class="progress-bar">
+
+                            <div class="progress-fill"
+                                 style="width: {{ progress }}%;"></div>
+
+                        </div>
+
+                        <span class="progress-text">
+
+                            {{ progress }}% Attendance
+
+                        </span>
+
+                    </div>
+
+                    <a href="/agent/checkin?event_id={{ event.id }}"
+                       class="open-btn">
+
+                        <i class="fas fa-qrcode"></i>
+
+                        Open Check-In
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <i class="fas fa-calendar-xmark"></i>
+
+            <h3>
+
+                No Active Events Today
+
+            </h3>
+
+            <p>
+
+                You currently have no active event assignments today.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   UPCOMING EVENTS
+========================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-tag">
+
+                UPCOMING
+
+            </span>
+
+            <h2>
+
+                Future Assignments
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="upcoming-grid">
+
+        {% if upcoming_events %}
+
+            {% for event in upcoming_events %}
+
+            <div class="upcoming-card">
+
+                <div class="lock-icon">
+
+                    <i class="fas fa-lock"></i>
+
+                </div>
+
+                <h3>
+
+                    {{ event.title }}
+
+                </h3>
+
+                <p>
+
+                    {{ event.location or 'Venue Pending' }}
+
+                </p>
+
+                <span>
+
+                    {{ event.start_date.strftime('%d %b %Y') }}
+
+                </span>
+
+                <div class="locked-badge">
+
+                    Access unlocks on event day
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state small">
+
+            <i class="fas fa-calendar"></i>
+
+            <h3>
+
+                No Upcoming Assignments
+
+            </h3>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   RECENT CHECKINS
+========================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-tag">
+
+                LIVE ACTIVITY
+
+            </span>
+
+            <h2>
+
+                Recent Check-Ins
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="checkins-card">
+
+        {% if recent_checkins %}
+
+            {% for checkin in recent_checkins %}
+
+            <div class="checkin-item">
+
+                <div class="checkin-avatar">
+
+                    {{ checkin.full_name[0] }}
+
+                </div>
+
+                <div class="checkin-info">
+
+                    <h4>
+
+                        {{ checkin.full_name }}
+
+                    </h4>
+
+                    <span>
+
+                        {{ checkin.ticket_name }}
+
+                        •
+                        {{ checkin.event_title }}
+
+                    </span>
+
+                </div>
+
+                <div class="checkin-time">
+
+                    {{ checkin.checked_in_at.strftime('%I:%M %p') }}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state small">
+
+            <i class="fas fa-user-check"></i>
+
+            <h3>
+
+                No Recent Check-Ins
+
+            </h3>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

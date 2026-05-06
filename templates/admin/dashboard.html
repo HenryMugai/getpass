@@ -1,0 +1,299 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}
+Admin Dashboard | GetPass
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin/dashboard.css') }}">
+{% endblock %}
+
+{% block page_title %}
+Dashboard
+{% endblock %}
+
+{% block page_description %}
+Overview of platform activity and system operations.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   STATS GRID
+========================================= -->
+<section class="stats-grid">
+
+    <!-- CARD -->
+    <div class="stats-card">
+
+        <div class="stats-icon purple">
+
+            <i class="fas fa-calendar-days"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+                Total Events
+            </span>
+
+            <h3>
+                {{ total_events }}
+            </h3>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="stats-card">
+
+        <div class="stats-icon blue">
+
+            <i class="fas fa-earth-africa"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+                Published Events
+            </span>
+
+            <h3>
+                {{ published_events }}
+            </h3>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="stats-card">
+
+        <div class="stats-icon emerald">
+
+            <i class="fas fa-users"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+                Total Users
+            </span>
+
+            <h3>
+                {{ total_users }}
+            </h3>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="stats-card">
+
+        <div class="stats-icon orange">
+
+            <i class="fas fa-user-shield"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+                Active Agents
+            </span>
+
+            <h3>
+                {{ total_agents }}
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   DASHBOARD GRID
+========================================= -->
+<section class="dashboard-grid">
+
+    <!-- RECENT EVENTS -->
+    <div class="dashboard-card large-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+                    EVENTS
+                </span>
+
+                <h2>
+                    Recent Events
+                </h2>
+
+            </div>
+
+        </div>
+
+        {% if recent_events %}
+
+        <div class="events-table-wrapper">
+
+            <table class="events-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Event
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for event in recent_events %}
+
+                    <tr>
+
+                        <td>
+                            {{ event.title }}
+                        </td>
+
+                        <td>
+                            {{ event.category if event.category else 'Event' }}
+                        </td>
+
+                        <td>
+                            {{ event.location if event.location else 'TBA' }}
+                        </td>
+
+                        <td>
+                            {{ event.start_date.strftime('%d %b %Y') if event.start_date else 'Upcoming' }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge status-{{ event.status }}">
+
+                                {{ event.status|title }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="fas fa-calendar-xmark"></i>
+
+            </div>
+
+            <h3>
+                No Events Found
+            </h3>
+
+            <p>
+                Newly created events will appear here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="dashboard-card actions-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+                    QUICK ACTIONS
+                </span>
+
+                <h2>
+                    Management
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="quick-actions">
+
+            <a href="/admin/events"
+               class="action-btn">
+
+                <i class="fas fa-calendar-plus"></i>
+
+                Manage Events
+
+            </a>
+
+            <a href="/admin/users"
+               class="action-btn">
+
+                <i class="fas fa-user-plus"></i>
+
+                Manage Users
+
+            </a>
+
+            <a href="/admin/agents"
+               class="action-btn">
+
+                <i class="fas fa-user-shield"></i>
+
+                Manage Agents
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

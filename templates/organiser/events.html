@@ -1,0 +1,258 @@
+{% extends 'organiser/base.html' %}
+
+{% block title %}
+My Events | GetPass
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/organiser/events.css') }}">
+{% endblock %}
+
+{% block page_title %}
+My Events
+{% endblock %}
+
+{% block page_description %}
+Manage your event performance and operational overview.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   EVENTS GRID
+========================================= -->
+
+<section class="events-grid">
+
+    {% if events %}
+
+        {% for event in events %}
+
+        <div class="event-card">
+
+            <!-- IMAGE -->
+            <div class="event-banner">
+
+                {% if event.event_image %}
+
+                <img src="{{ url_for('static', filename=event.event_image) }}"
+                     alt="{{ event.title }}">
+
+                {% else %}
+
+                <div class="event-placeholder">
+
+                    <i class="fas fa-image"></i>
+
+                </div>
+
+                {% endif %}
+
+                <div class="event-status status-{{ event.status }}">
+
+                    {{ event.status }}
+
+                </div>
+
+            </div>
+
+            <!-- CONTENT -->
+            <div class="event-body">
+
+                <div class="event-meta">
+
+                    <span>
+
+                        <i class="fas fa-location-dot"></i>
+
+                        {{ event.location if event.location else 'Location TBA' }}
+
+                    </span>
+
+                    <span>
+
+                        <i class="fas fa-calendar"></i>
+
+                        {{ event.start_date.strftime('%d %b %Y') if event.start_date else 'Upcoming' }}
+
+                    </span>
+
+                </div>
+
+                <h2>
+
+                    {{ event.title }}
+
+                </h2>
+
+                <!-- STATS -->
+                <div class="event-stats">
+
+                    <div class="stat-box">
+
+                        <strong>
+
+                            {{ event.attendees_count }}
+
+                        </strong>
+
+                        <span>
+
+                            Attendees
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-box">
+
+                        <strong>
+
+                            {{ event.checked_in_count }}
+
+                        </strong>
+
+                        <span>
+
+                            Checked In
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-box">
+
+                        <strong>
+
+                            {{ event.views_count }}
+
+                        </strong>
+
+                        <span>
+
+                            Views
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- SALES -->
+                <div class="sales-overview">
+
+                    <div class="sales-item">
+
+                        <span>
+
+                            Ticket Types
+
+                        </span>
+
+                        <strong>
+
+                            {{ event.ticket_types }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="sales-item">
+
+                        <span>
+
+                            Tickets Sold
+
+                        </span>
+
+                        <strong>
+
+                            {{ event.total_tickets_sold }}
+
+                        </strong>
+
+                    </div>
+
+                    <div class="sales-item">
+
+                        <span>
+
+                            Total Capacity
+
+                        </span>
+
+                        <strong>
+
+                            {{ event.total_ticket_quantity }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <!-- POSTER UPDATE -->
+                <form method="POST"
+                      class="poster-form">
+
+                    <input type="hidden"
+                           name="event_id"
+                           value="{{ event.id }}">
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Update Poster Path
+
+                        </label>
+
+                        <input type="text"
+                               name="event_image"
+                               placeholder="uploads/events/poster.jpg">
+
+                    </div>
+
+                    <button type="submit"
+                            class="poster-btn">
+
+                        <i class="fas fa-image"></i>
+
+                        Update Poster
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <i class="fas fa-calendar-xmark"></i>
+
+        <h3>
+
+            No Events Found
+
+        </h3>
+
+        <p>
+
+            You currently have no assigned events.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

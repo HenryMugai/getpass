@@ -1,0 +1,368 @@
+{% extends 'organiser/base.html' %}
+
+{% block title %}
+Organiser Dashboard | GetPass
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/organiser/dashboard.css') }}">
+{% endblock %}
+
+{% block page_title %}
+Dashboard
+{% endblock %}
+
+{% block page_description %}
+Track your events, attendees and operational activity.
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================
+   WELCOME
+========================================= -->
+
+<section class="welcome-banner">
+
+    <div>
+
+        <span class="welcome-tag">
+
+            ORGANISER PANEL
+
+        </span>
+
+        <h2>
+
+            Welcome back,
+            {{ organiser.full_name }}
+
+        </h2>
+
+        <p>
+
+            Monitor attendee activity, check-ins and your overall event performance.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   STATS
+========================================= -->
+
+<section class="stats-grid">
+
+    <div class="stats-card">
+
+        <div class="stats-icon emerald">
+
+            <i class="fas fa-calendar-days"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+
+                Total Events
+
+            </span>
+
+            <h3>
+
+                {{ total_events }}
+
+            </h3>
+
+        </div>
+
+    </div>
+
+    <div class="stats-card">
+
+        <div class="stats-icon blue">
+
+            <i class="fas fa-bullhorn"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+
+                Published Events
+
+            </span>
+
+            <h3>
+
+                {{ published_events }}
+
+            </h3>
+
+        </div>
+
+    </div>
+
+    <div class="stats-card">
+
+        <div class="stats-icon purple">
+
+            <i class="fas fa-users"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+
+                Total Attendees
+
+            </span>
+
+            <h3>
+
+                {{ total_attendees }}
+
+            </h3>
+
+        </div>
+
+    </div>
+
+    <div class="stats-card">
+
+        <div class="stats-icon orange">
+
+            <i class="fas fa-check-circle"></i>
+
+        </div>
+
+        <div class="stats-content">
+
+            <span>
+
+                Checked In
+
+            </span>
+
+            <h3>
+
+                {{ checked_in }}
+
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+   GRID
+========================================= -->
+
+<section class="dashboard-grid">
+
+    <!-- EVENTS -->
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+
+                    EVENT OVERVIEW
+
+                </span>
+
+                <h2>
+
+                    Recent Events
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="events-list">
+
+            {% if recent_events %}
+
+                {% for event in recent_events %}
+
+                <div class="event-item">
+
+                    <div class="event-image">
+
+                        {% if event.event_image %}
+
+                        <img src="{{ url_for('static', filename=event.event_image) }}"
+                             alt="{{ event.title }}">
+
+                        {% else %}
+
+                        <div class="event-placeholder">
+
+                            <i class="fas fa-image"></i>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="event-content">
+
+                        <h4>
+
+                            {{ event.title }}
+
+                        </h4>
+
+                        <span>
+
+                            {{ event.location if event.location else 'Location TBA' }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="event-status status-{{ event.status }}">
+
+                        {{ event.status }}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <i class="fas fa-calendar-xmark"></i>
+
+                <p>
+
+                    No events available.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDEES -->
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-tag">
+
+                    ATTENDEE ACTIVITY
+
+                </span>
+
+                <h2>
+
+                    Recent Attendees
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="attendee-list">
+
+            {% if recent_attendees %}
+
+                {% for attendee in recent_attendees %}
+
+                <div class="attendee-item">
+
+                    <div class="attendee-avatar">
+
+                        {{ attendee.full_name[0] }}
+
+                    </div>
+
+                    <div class="attendee-content">
+
+                        <h4>
+
+                            {{ attendee.full_name }}
+
+                        </h4>
+
+                        <span>
+
+                            {{ attendee.event_title }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="attendee-status">
+
+                        {% if attendee.checkin_status == 1 %}
+
+                        <span class="checkin-badge checked">
+
+                            Checked In
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="checkin-badge pending">
+
+                            Pending
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <i class="fas fa-users-slash"></i>
+
+                <p>
+
+                    No attendees yet.
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block title %}
+        Organiser Panel | GetPass
+        {% endblock %}
+
+    </title>
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- BASE CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/organiser/base.css') }}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- =========================================
+       LAYOUT
+    ========================================== -->
+    <div class="organiser-layout">
+
+        <!-- =========================================
+           SIDEBAR
+        ========================================== -->
+        <aside class="organiser-sidebar"
+               id="sidebar">
+
+            <!-- LOGO -->
+            <div class="sidebar-logo">
+
+                <a href="/organiser">
+
+                    <i class="fas fa-ticket"></i>
+
+                    <span>
+                        GetPass
+                    </span>
+
+                </a>
+
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="sidebar-nav">
+
+                <span class="nav-title">
+
+                    ORGANISER PANEL
+
+                </span>
+
+                <a href="/organiser"
+                   class="nav-link">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+                <a href="/organiser/events"
+                   class="nav-link">
+
+                    <i class="fas fa-calendar-days"></i>
+
+                    <span>
+                        My Events
+                    </span>
+
+                </a>
+
+                <a href="/organiser/attendees"
+                   class="nav-link">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>
+                        Attendees
+                    </span>
+
+                </a>
+
+                <a href="/organiser/finances"
+                   class="nav-link">
+
+                    <i class="fas fa-wallet"></i>
+
+                    <span>
+                        Finances & Revenue
+                    </span>
+
+                </a>
+
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="sidebar-footer">
+
+                <div class="sidebar-user">
+
+                    <div class="sidebar-avatar">
+
+                        O
+
+                    </div>
+
+                    <div class="sidebar-user-info">
+
+                        <h4>
+
+                            Organiser
+
+                        </h4>
+
+                        <span>
+
+                            Event Management
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <a href="/auth/logout"
+                   class="logout-btn">
+
+                    <i class="fas fa-arrow-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- =========================================
+           MAIN
+        ========================================== -->
+        <main class="organiser-main">
+
+            <!-- =========================================
+               TOPBAR
+            ========================================== -->
+            <header class="organiser-topbar">
+
+                <div class="topbar-left">
+
+                    <button class="sidebar-toggle"
+                            id="sidebarToggle">
+
+                        <i class="fas fa-bars"></i>
+
+                    </button>
+
+                    <div class="topbar-page">
+
+                        <h1>
+
+                            {% block page_title %}
+                            Dashboard
+                            {% endblock %}
+
+                        </h1>
+
+                        <p>
+
+                            {% block page_description %}
+                            Organiser overview
+                            {% endblock %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="topbar-user">
+
+                    <div class="topbar-avatar">
+
+                        O
+
+                    </div>
+
+                    <div class="topbar-user-info">
+
+                        <h4>
+
+                            Organiser
+
+                        </h4>
+
+                        <span>
+
+                            Event Manager
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- =========================================
+               CONTENT
+            ========================================== -->
+            <section class="organiser-content">
+
+                {% block content %}
+                {% endblock %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- =========================================
+       OVERLAY
+    ========================================== -->
+    <div class="sidebar-overlay"
+         id="sidebarOverlay"></div>
+
+    <!-- =========================================
+       SIDEBAR SCRIPT
+    ========================================== -->
+    <script>
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+        const sidebarToggle =
+            document.getElementById('sidebarToggle');
+
+        const sidebarOverlay =
+            document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener(
+            'click',
+            () => {
+
+                sidebar.classList.toggle('active');
+
+                sidebarOverlay.classList.toggle('active');
+
+            }
+        );
+
+        sidebarOverlay.addEventListener(
+            'click',
+            () => {
+
+                sidebar.classList.remove('active');
+
+                sidebarOverlay.classList.remove('active');
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block title %}
+        GetPass Admin
+        {% endblock %}
+
+    </title>
+
+    <!-- FONTS -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- BASE CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/admin/base.css') }}">
+
+    <!-- PAGE CSS -->
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- =========================================
+       MOBILE OVERLAY
+    ========================================== -->
+    <div class="sidebar-overlay"
+         id="sidebarOverlay"></div>
+
+    <!-- =========================================
+       ADMIN LAYOUT
+    ========================================== -->
+    <div class="admin-layout">
+
+        <!-- =========================================
+           SIDEBAR
+        ========================================== -->
+        <aside class="admin-sidebar"
+               id="adminSidebar">
+
+            <!-- LOGO -->
+            <div class="sidebar-logo">
+
+                <a href="/admin/">
+
+                    <i class="fas fa-ticket-alt"></i>
+
+                    <span>
+
+                        GetPass
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="sidebar-nav">
+
+                <span class="nav-title">
+
+                    MAIN MENU
+
+                </span>
+
+                <a href="/admin/"
+                   class="nav-link">
+
+                    <i class="fas fa-chart-pie"></i>
+
+                    Dashboard
+
+                </a>
+
+                <a href="/admin/users"
+                   class="nav-link">
+
+                    <i class="fas fa-users"></i>
+
+                    Users
+
+                </a>
+
+                <a href="/admin/events"
+                   class="nav-link">
+
+                    <i class="fas fa-calendar-days"></i>
+
+                    Events
+
+                </a>
+
+                <a href="/admin/agents"
+                   class="nav-link">
+
+                    <i class="fas fa-user-shield"></i>
+
+                    Agents
+
+                </a>
+
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="sidebar-footer">
+
+                <div class="sidebar-user">
+
+                    <div class="sidebar-avatar">
+
+                        {{ session.get('user_name', 'A')[0] }}
+
+                    </div>
+
+                    <div class="sidebar-user-info">
+
+                        <h4>
+
+                            {{ session.get('user_name', 'Admin') }}
+
+                        </h4>
+
+                        <span>
+
+                            {{ session.get('role', 'admin')|title }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <a href="/auth/logout"
+                   class="logout-btn">
+
+                    <i class="fas fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- =========================================
+           MAIN
+        ========================================== -->
+        <main class="admin-main">
+
+            <!-- =========================================
+               TOPBAR
+            ========================================== -->
+            <header class="admin-topbar">
+
+                <!-- LEFT -->
+                <div class="topbar-left">
+
+                    <button class="sidebar-toggle"
+                            id="sidebarToggle">
+
+                        <i class="fas fa-bars"></i>
+
+                    </button>
+
+                    <div class="topbar-page">
+
+                        <h1>
+
+                            {% block page_title %}
+                            Dashboard
+                            {% endblock %}
+
+                        </h1>
+
+                        <p>
+
+                            {% block page_description %}
+                            Welcome back to GetPass Admin.
+                            {% endblock %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="topbar-right">
+
+                    <div class="topbar-user">
+
+                        <div class="topbar-avatar">
+
+                            {{ session.get('user_name', 'A')[0] }}
+
+                        </div>
+
+                        <div class="topbar-user-info">
+
+                            <h4>
+
+                                {{ session.get('user_name', 'Admin') }}
+
+                            </h4>
+
+                            <span>
+
+                                {{ session.get('role', 'admin')|title }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- =========================================
+               PAGE CONTENT
+            ========================================== -->
+            <section class="admin-content">
+
+                {% block content %}
+                {% endblock %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- =========================================
+       JS
+    ========================================== -->
+    <script>
+
+        const sidebarToggle =
+            document.getElementById('sidebarToggle');
+
+        const adminSidebar =
+            document.getElementById('adminSidebar');
+
+        const sidebarOverlay =
+            document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', () => {
+
+            adminSidebar.classList.toggle('active');
+
+            sidebarOverlay.classList.toggle('active');
+
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+
+            adminSidebar.classList.remove('active');
+
+            sidebarOverlay.classList.remove('active');
+
+        });
+
+    </script>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+
+</html>

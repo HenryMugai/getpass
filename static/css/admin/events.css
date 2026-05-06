@@ -1,0 +1,561 @@
+/* =========================================
+   GLOBAL FIXES
+========================================= */
+
+.events-form-section,
+.events-list-section,
+.events-card,
+.event-form,
+.form-group{
+
+    width:100%;
+    max-width:100%;
+    min-width:0;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.events-card{
+
+    background:#ffffff;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 10px 30px rgba(15,23,42,0.05);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.card-header{
+
+    margin-bottom:26px;
+}
+
+.card-tag{
+
+    display:inline-block;
+
+    margin-bottom:10px;
+
+    color:#7c3aed;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+}
+
+.card-header h2{
+
+    font-size:30px;
+
+    line-height:1.2;
+
+    color:#111827;
+
+    margin-bottom:10px;
+}
+
+.card-description{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+    line-height:1.6;
+}
+
+/* =========================================
+   ALERTS
+========================================= */
+
+.alert{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border-radius:14px;
+
+    margin-bottom:18px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.alert-success{
+
+    background:#dcfce7;
+
+    color:#166534;
+}
+
+.alert-error{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.event-form{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:20px;
+}
+
+.full-width{
+
+    grid-column:1 / -1;
+}
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group{
+
+    overflow:hidden;
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#374151;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    max-width:100%;
+
+    min-width:0;
+
+    display:block;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:14px;
+
+    padding:14px 16px;
+
+    background:#f9fafb;
+
+    color:#111827;
+
+    font-size:14px;
+
+    transition:0.3s ease;
+}
+
+.form-group textarea{
+
+    resize:vertical;
+
+    min-height:130px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    outline:none;
+
+    border-color:#7c3aed;
+
+    background:white;
+
+    box-shadow:
+        0 0 0 4px rgba(124,58,237,0.08);
+}
+
+/* =========================================
+   FILE INPUT
+========================================= */
+
+.form-group input[type="file"]{
+
+    padding:12px;
+
+    background:white;
+}
+
+/* =========================================
+   CHECKBOXES
+========================================= */
+
+.checkbox-group{
+
+    grid-column:1 / -1;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+}
+
+.checkbox-group label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    color:#374151;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.submit-btn{
+
+    width:100%;
+
+    grid-column:1 / -1;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #00d4ff
+        );
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.events-table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    -webkit-overflow-scrolling:touch;
+}
+
+.events-table{
+
+    width:100%;
+
+    min-width:850px;
+
+    border-collapse:collapse;
+}
+
+.events-table thead th{
+
+    text-align:left;
+
+    padding-bottom:16px;
+
+    color:#9ca3af;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    border-bottom:1px solid #f1f5f9;
+}
+
+.events-table tbody td{
+
+    padding:18px 0;
+
+    border-bottom:1px solid #f8fafc;
+
+    font-size:14px;
+
+    color:#374151;
+}
+
+/* =========================================
+   EVENT INFO
+========================================= */
+
+.event-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    min-width:220px;
+}
+
+.event-info img,
+.event-placeholder{
+
+    width:64px;
+    min-width:64px;
+
+    height:64px;
+
+    border-radius:18px;
+
+    object-fit:cover;
+
+    background:#f3f4f6;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#9ca3af;
+}
+
+.event-info h4{
+
+    color:#111827;
+
+    font-size:14px;
+
+    margin-bottom:6px;
+}
+
+.event-info span{
+
+    color:#6b7280;
+
+    font-size:12px;
+}
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.status-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+
+.status-published{
+
+    background:#dcfce7;
+
+    color:#166534;
+}
+
+.status-draft{
+
+    background:#fef3c7;
+
+    color:#92400e;
+}
+
+.status-cancelled{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media(max-width:768px){
+
+    .events-card{
+
+        padding:22px;
+    }
+
+    .card-header h2{
+
+        font-size:24px;
+    }
+
+    .event-form{
+
+        grid-template-columns:1fr;
+    }
+
+    .checkbox-group{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:14px;
+    }
+
+    .events-table{
+
+        min-width:760px;
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:480px){
+
+    .events-card{
+
+        width:100%;
+
+        max-width:100%;
+
+        padding:16px;
+
+        border-radius:18px;
+    }
+
+    .card-header{
+
+        margin-bottom:20px;
+    }
+
+    .card-header h2{
+
+        font-size:22px;
+    }
+
+    .card-description{
+
+        font-size:12px;
+    }
+
+    .event-form{
+
+        width:100%;
+
+        grid-template-columns:1fr;
+
+        gap:16px;
+    }
+
+    .form-group{
+
+        width:100%;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+
+        width:100%;
+
+        max-width:100%;
+
+        font-size:13px;
+
+        padding:12px 14px;
+
+        border-radius:12px;
+    }
+
+    .checkbox-group{
+
+        width:100%;
+
+        gap:12px;
+    }
+
+    .submit-btn{
+
+        width:100%;
+
+        height:50px;
+
+        font-size:13px;
+
+        border-radius:14px;
+    }
+
+    .events-table{
+
+        min-width:680px;
+    }
+
+    .event-info{
+
+        min-width:180px;
+
+        gap:10px;
+    }
+
+    .event-info img,
+    .event-placeholder{
+
+        width:52px;
+        min-width:52px;
+
+        height:52px;
+
+        border-radius:16px;
+    }
+}
