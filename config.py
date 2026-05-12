@@ -1,12 +1,21 @@
 # config.py
+
+import os
+from dotenv import load_dotenv
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+
+load_dotenv(dotenv_path=ENV_PATH)
+
 DB_CONFIG = {
-    'host': '127.0.0.1',
-    'port': 3306,
-    'user': 'root',
-    'password': '0795438822',
-    'database': 'getpass_v2',
-    'autocommit': True,
-    'connection_timeout': 30
+    "host": os.getenv("DB_HOST"),
+    "port": int(os.getenv("DB_PORT", 5432)),
+    "dbname": os.getenv("DB_NAME", "postgres"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "sslmode": "require",
+    "connect_timeout": 30,
 }
 
-SECRET_KEY = 'your-secret-key'
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
