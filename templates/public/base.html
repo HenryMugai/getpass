@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <!-- =========================================
-       META
+         META
     ========================================== -->
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="description"
-          content="GetPass - Modern Smart Ticketing Platform">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GetPass - Premium Smart Ticketing Platform">
 
     <title>
         {% block title %}
@@ -19,411 +14,281 @@
         {% endblock %}
     </title>
 
-    <!-- =========================================
-       GOOGLE FONTS
-    ========================================== -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect"
           href="https://fonts.gstatic.com"
           crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
           rel="stylesheet">
 
-    <!-- =========================================
-       FONT AWESOME
-    ========================================== -->
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- =========================================
-       GLOBAL CSS
-    ========================================== -->
+    <!-- Global CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/public/base.css') }}">
 
-    <!-- =========================================
-       PAGE CSS
-    ========================================== -->
-    {% block extra_css %}
-    {% endblock %}
-
+    <!-- Page CSS -->
+    {% block extra_css %}{% endblock %}
 </head>
-
 <body>
 
     <!-- =========================================
-       TOP BAR
+         TOP BAR
     ========================================== -->
     <div class="top-bar">
-
         <div class="container top-bar-container">
 
             <div class="top-left">
-
                 <span>
-
                     <i class="fas fa-envelope"></i>
-
-                    support@getpass.com
-
+                    support@getpass.co.ke
                 </span>
 
                 <span>
-
                     <i class="fas fa-phone"></i>
-
                     +254 700 000 000
-
                 </span>
-
             </div>
 
             <div class="top-right">
-
-                <a href="#">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
-                <a href="#">
-                    <i class="fab fa-x-twitter"></i>
-                </a>
-
-                <a href="#">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
             </div>
 
         </div>
-
     </div>
 
     <!-- =========================================
-       HEADER
+         HEADER
     ========================================== -->
-    <header class="site-header"
-            id="mainHeader">
-
-        <div class="header-overlay"></div>
-
+    <header class="site-header" id="mainHeader">
         <div class="container header-container">
 
-            <!-- ================= LOGO ================= -->
-            <a href="{{ url_for('public.index') }}"
-               class="logo-wrapper">
+            <!-- Logo -->
+            <a href="{{ url_for('public.index') }}" class="logo-wrapper">
 
                 <div class="logo-icon">
-
-                    <i class="fas fa-ticket"></i>
-
+                    <i class="fas fa-ticket-alt"></i>
                 </div>
 
                 <div class="logo-texts">
-
                     <h2>GetPass</h2>
-
-                    <span>
-                        Smart Ticketing
-                    </span>
-
+                    <span>Smart Ticketing</span>
                 </div>
 
             </a>
 
-            <!-- ================= NAVIGATION ================= -->
+            <!-- Desktop Navigation -->
             <nav class="main-nav">
-
                 <a href="{{ url_for('public.index') }}"
                    class="nav-link {% if request.endpoint == 'public.index' %}active{% endif %}">
-
                     Home
-
                 </a>
 
                 <a href="{{ url_for('public.events') }}"
                    class="nav-link {% if request.endpoint == 'public.events' %}active{% endif %}">
-
                     Events
-
                 </a>
-
             </nav>
 
-            <!-- ================= ACTIONS ================= -->
+            <!-- Header Actions -->
             <div class="header-actions">
 
-                <a href="{{ url_for('auth.login') }}"
-                   class="view-events-btn">
-
-                    <i class="fas fa-calendar"></i>
-
-                    View Events
-
+                <a href="{{ url_for('public.events') }}"
+                   class="primary-btn desktop-only">
+                    Explore Events
                 </a>
 
-                <!-- MOBILE TOGGLE -->
+                <a href="{{ url_for('auth.login') }}"
+                   class="secondary-btn desktop-only">
+                    Sign In
+                </a>
+
+                <!-- Mobile Toggle -->
                 <button class="mobile-toggle"
-                        id="mobileToggle">
-
+                        id="mobileToggle"
+                        type="button"
+                        aria-label="Open menu">
                     <span></span>
                     <span></span>
                     <span></span>
-
                 </button>
 
             </div>
 
         </div>
-
     </header>
 
     <!-- =========================================
-       MOBILE NAVIGATION
+         MOBILE MENU
     ========================================== -->
-    <div class="mobile-overlay"
-         id="mobileOverlay"></div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
 
-    <div class="mobile-menu"
-         id="mobileMenu">
+    <aside class="mobile-menu" id="mobileMenu">
 
-        <!-- MOBILE HEADER -->
         <div class="mobile-menu-header">
 
-            <div class="mobile-brand">
+            <a href="{{ url_for('public.index') }}" class="logo-wrapper">
 
                 <div class="logo-icon">
-
-                    <i class="fas fa-ticket"></i>
-
+                    <i class="fas fa-ticket-alt"></i>
                 </div>
 
                 <div class="logo-texts">
-
                     <h2>GetPass</h2>
-
-                    <span>
-                        Smart Ticketing
-                    </span>
-
+                    <span>Smart Ticketing</span>
                 </div>
 
-            </div>
+            </a>
 
-            <button id="mobileClose">
-
+            <button id="mobileClose"
+                    type="button"
+                    aria-label="Close menu">
                 <i class="fas fa-times"></i>
-
             </button>
 
         </div>
 
-        <!-- MOBILE LINKS -->
-        <div class="mobile-links">
+        <nav class="mobile-links">
 
             <a href="{{ url_for('public.index') }}">
-
                 <i class="fas fa-house"></i>
-
                 Home
-
             </a>
 
             <a href="{{ url_for('public.events') }}">
-
-                <i class="fas fa-calendar"></i>
-
+                <i class="fas fa-calendar-days"></i>
                 Events
-
             </a>
 
-        </div>
+            <a href="{{ url_for('auth.login') }}">
+                <i class="fas fa-right-to-bracket"></i>
+                Sign In
+            </a>
 
-        <!-- MOBILE BUTTON -->
-        <a href="{{ url_for('auth.login') }}"
-           class="mobile-events-btn">
+        </nav>
 
+        <a href="{{ url_for('public.events') }}"
+           class="mobile-primary-btn">
             Explore Events
-
         </a>
 
-    </div>
+    </aside>
 
     <!-- =========================================
-       MAIN CONTENT
+         MAIN CONTENT
     ========================================== -->
     <main class="main-content">
-
-        {% block content %}
-        {% endblock %}
-
+        {% block content %}{% endblock %}
     </main>
 
     <!-- =========================================
-       FOOTER
+         FOOTER
     ========================================== -->
     <footer class="site-footer">
 
         <div class="container footer-container">
 
-            <!-- FOOTER BRAND -->
             <div class="footer-brand">
 
                 <div class="footer-logo">
 
                     <div class="logo-icon">
-
-                        <i class="fas fa-ticket"></i>
-
+                        <i class="fas fa-ticket-alt"></i>
                     </div>
 
                     <div class="logo-texts">
-
                         <h3>GetPass</h3>
-
-                        <span>
-                            Smart Ticketing
-                        </span>
-
+                        <span>Smart Ticketing</span>
                     </div>
 
                 </div>
 
                 <p>
-
-                    Discover amazing concerts, festivals,
-                    conferences and unforgettable experiences
-                    with the next generation ticketing platform.
-
+                    Discover concerts, festivals, conferences and premium
+                    experiences with Kenya's next-generation ticketing platform.
                 </p>
 
             </div>
 
-            <!-- FOOTER NAV -->
             <div class="footer-links">
-
-                <h4>
-                    Navigation
-                </h4>
-
-                <a href="{{ url_for('public.index') }}">
-                    Home
-                </a>
-
-                <a href="{{ url_for('public.events') }}">
-                    Events
-                </a>
-
+                <h4>Navigation</h4>
+                <a href="{{ url_for('public.index') }}">Home</a>
+                <a href="{{ url_for('public.events') }}">Events</a>
             </div>
 
-            <!-- FOOTER SUPPORT -->
             <div class="footer-links">
-
-                <h4>
-                    Support
-                </h4>
-
-                <a href="#">
-                    Help Center
-                </a>
-
-                <a href="#">
-                    Contact Us
-                </a>
-
-                <a href="#">
-                    Privacy Policy
-                </a>
-
+                <h4>Support</h4>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
             </div>
 
         </div>
 
-        <!-- FOOTER BOTTOM -->
         <div class="footer-bottom">
-
-            <p>
-
-                © 2026 GetPass. All Rights Reserved.
-
-            </p>
-
+            <p>&copy; 2026 GetPass. All Rights Reserved.</p>
         </div>
 
     </footer>
 
     <!-- =========================================
-       JAVASCRIPT
+         JAVASCRIPT
     ========================================== -->
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobileClose = document.getElementById('mobileClose');
+            const header = document.getElementById('mainHeader');
 
-        // =========================================
-        // MOBILE MENU
-        // =========================================
-        const mobileToggle =
-            document.getElementById('mobileToggle');
-
-        const mobileMenu =
-            document.getElementById('mobileMenu');
-
-        const mobileOverlay =
-            document.getElementById('mobileOverlay');
-
-        const mobileClose =
-            document.getElementById('mobileClose');
-
-        mobileToggle.addEventListener('click', () => {
-
-            mobileMenu.classList.add('active');
-
-            mobileOverlay.classList.add('active');
-
-            document.body.classList.add('menu-open');
-
-        });
-
-        function closeMenu() {
-
-            mobileMenu.classList.remove('active');
-
-            mobileOverlay.classList.remove('active');
-
-            document.body.classList.remove('menu-open');
-
-        }
-
-        mobileClose.addEventListener('click', closeMenu);
-
-        mobileOverlay.addEventListener('click', closeMenu);
-
-        // =========================================
-        // HEADER SCROLL EFFECT
-        // =========================================
-        const header =
-            document.getElementById('mainHeader');
-
-        window.addEventListener('scroll', () => {
-
-            if (window.scrollY > 20) {
-
-                header.classList.add('scrolled');
-
-            } else {
-
-                header.classList.remove('scrolled');
+            function openMenu() {
+                mobileMenu.classList.add('active');
+                mobileOverlay.classList.add('active');
+                document.body.classList.add('menu-open');
             }
 
-        });
+            function closeMenu() {
+                mobileMenu.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
 
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', openMenu);
+            }
+
+            if (mobileClose) {
+                mobileClose.addEventListener('click', closeMenu);
+            }
+
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', closeMenu);
+            }
+
+            // Close menu when a link is clicked
+            document.querySelectorAll('.mobile-links a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
     </script>
 
-    <!-- =========================================
-       PAGE JS
-    ========================================== -->
-    {% block extra_js %}
-    {% endblock %}
+    {% block extra_js %}{% endblock %}
 
 </body>
 </html>
