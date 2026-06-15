@@ -11,76 +11,85 @@ GetPass | Events
 
 {% block content %}
 
-<!-- =========================================
-   EVENTS HERO
-========================================= -->
 <section class="events-hero">
-
     <div class="events-hero-overlay"></div>
 
     <div class="container events-hero-container">
 
         <span class="events-badge">
-
             <i class="fas fa-calendar-star"></i>
-
             LIVE EVENTS
-
         </span>
 
-        <h1>
-
-            Discover Upcoming
-            Experiences
-
-        </h1>
+        <h1>Discover Amazing Experiences</h1>
 
         <p>
-
-            Explore concerts, conferences, nightlife,
-            festivals and unforgettable events happening
-            around you.
-
+            Explore concerts, conferences, festivals, nightlife
+            and unforgettable experiences happening around you.
         </p>
 
-    </div>
+        <!-- SEARCH FORM -->
+        <form method="GET"
+              action="{{ url_for('public.events') }}"
+              class="events-search-form">
 
+            <div class="search-input-group">
+                <i class="fas fa-magnifying-glass"></i>
+                <input type="text"
+                       name="search"
+                       placeholder="Search events, venues or categories..."
+                       value="{{ search or '' }}">
+            </div>
+
+            <div class="search-select-group">
+                <select name="category">
+                    <option value="">All Categories</option>
+
+                    {% for cat in categories %}
+                    <option value="{{ cat.category }}"
+                            {% if selected_category == cat.category %}
+                                selected
+                            {% endif %}>
+                        {{ cat.category }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="search-btn">
+                Explore Events
+            </button>
+        </form>
+
+    </div>
 </section>
 
-<!-- =========================================
-   EVENTS SECTION
-========================================= -->
 <section class="events-section">
-
     <div class="container">
 
         <!-- SECTION HEADER -->
         <div class="events-section-header">
-
             <div>
-
                 <span class="section-mini-title">
-
                     DISCOVER EVENTS
-
                 </span>
-
-                <h2>
-
-                    Published Events
-
-                </h2>
-
+                <h2>Published Events</h2>
             </div>
 
             <p>
-
-                Browse all currently available events
-                on the platform.
-
+                Browse all currently available events on GetPass.
             </p>
-
         </div>
+
+        <!-- RESULTS COUNT -->
+        {% if events %}
+        <div class="events-results-summary">
+            <p>
+                {{ events|length }}
+                event{% if events|length != 1 %}s{% endif %} found.
+            </p>
+        </div>
+        {% endif %}
 
         <!-- EVENTS GRID -->
         <div class="events-grid">
@@ -89,137 +98,129 @@ GetPass | Events
 
                 {% for event in events %}
 
-                <!-- EVENT CARD -->
-                <div class="event-card">
+                <article class="event-card">
 
                     <!-- IMAGE -->
                     <div class="event-image-wrapper">
 
                         {% if event.event_image %}
-
-                        <img src="{{ event.event_image }}"
-                             alt="{{ event.title }}">
-
+                            <img src="{{ event.event_image }}"
+                                 alt="{{ event.title }}">
                         {% else %}
-
-                        <div class="event-image-placeholder">
-
-                            <i class="fas fa-calendar-day"></i>
-
-                        </div>
-
+                            <div class="event-image-placeholder">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
                         {% endif %}
 
                         <div class="event-overlay"></div>
 
-                        {% if event.starting_price %}
-
-                        <div class="event-price">
-
-                            From KSh {{ "{:,.0f}".format(event.starting_price) }}
-
+                        <!-- FEATURED BADGE -->
+                        {% if event.featured %}
+                        <div class="featured-badge">
+                            <i class="fas fa-star"></i>
+                            Featured
                         </div>
-
-                        {% else %}
-
-                        <div class="event-price free">
-
-                            Free
-
-                        </div>
-
                         {% endif %}
+
+                        <!-- PRICE -->
+                        <div class="event-price {% if event.starting_price == 0 %}free{% endif %}">
+                            {% if event.is_free or event.starting_price == 0 %}
+                                Free
+                            {% else %}
+                                From KSh {{ "{:,.0f}".format(event.starting_price) }}
+                            {% endif %}
+                        </div>
 
                     </div>
 
                     <!-- CONTENT -->
                     <div class="event-content">
 
+                        <!-- META -->
                         <div class="event-meta">
 
                             <span>
-
                                 <i class="fas fa-location-dot"></i>
-
-                                {{ event.location if event.location else 'Location TBA' }}
-
+                                {{ event.venue or event.location or 'Venue TBA' }}
                             </span>
 
                             <span>
-
                                 <i class="fas fa-calendar"></i>
-
-                                {{ event.start_date.strftime('%d %b %Y') if event.start_date else 'Upcoming' }}
-
+                                {% if event.start_date %}
+                                    {{ event.start_date.strftime('%d %b %Y') }}
+                                {% else %}
+                                    Upcoming
+                                {% endif %}
                             </span>
 
                         </div>
 
-                        <h3>
-
+                        <!-- TITLE -->
+                        <h3 class="event-title">
                             {{ event.title }}
-
                         </h3>
 
+                        <!-- CATEGORY -->
                         {% if event.category %}
-
                         <div class="event-category">
-
                             {{ event.category }}
-
                         </div>
-
                         {% endif %}
 
-                        <div class="event-actions">
+                        <!-- DESCRIPTION -->
+                        {% if event.short_description %}
+                            <p class="event-description">
+                                {{ event.short_description }}
+                            </p>
+                        {% elif event.description %}
+                            <p class="event-description">
+                                {{ event.description[:140] }}
+                                {% if event.description|length > 140 %}...{% endif %}
+                            </p>
+                        {% endif %}
 
+                        <!-- ACTION -->
+                        <div class="event-actions">
                             <a href="/events/{{ event.slug }}"
                                class="event-btn">
-
                                 View Event
-
+                                <i class="fas fa-arrow-right"></i>
                             </a>
-
                         </div>
 
                     </div>
 
-                </div>
+                </article>
 
                 {% endfor %}
 
             {% else %}
 
-            <!-- EMPTY STATE -->
-            <div class="empty-events">
+                <div class="empty-events">
 
-                <div class="empty-icon">
+                    <div class="empty-icon">
+                        <i class="fas fa-calendar-xmark"></i>
+                    </div>
 
-                    <i class="fas fa-calendar-xmark"></i>
+                    <h3>No Events Available</h3>
+
+                    <p>
+                        There are currently no published events.
+                        Please check back later.
+                    </p>
+
+                    <a href="{{ url_for('public.events') }}"
+                       class="browse-btn">
+                        View All Events
+                    </a>
 
                 </div>
-
-                <h3>
-
-                    No Events Available
-
-                </h3>
-
-                <p>
-
-                    There are currently no published events.
-                    Please check back later.
-
-                </p>
-
-            </div>
 
             {% endif %}
 
         </div>
 
     </div>
-
 </section>
 
 {% endblock %}

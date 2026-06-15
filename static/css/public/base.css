@@ -623,3 +623,75 @@ body{
         height:44px;
     }
 }
+
+
+
+
+/* ADD THIS TO THE VERY END OF:
+   static/css/public/base.css */
+
+/* =========================================
+   MOBILE MENU FIXES
+========================================= */
+
+/* Prevent page scrolling when mobile menu is open */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Ensure the toggle button is always clickable */
+.mobile-toggle {
+    position: relative;
+    z-index: 1000001;
+}
+
+/* Ensure header content sits above overlay elements */
+.header-container {
+    position: relative;
+    z-index: 10000;
+}
+
+/* Keep overlay below the side menu */
+.mobile-overlay {
+    z-index: 999998;
+}
+
+/* Keep side menu above overlay */
+.mobile-menu {
+    z-index: 999999;
+    overflow-y: auto;
+}
+
+/* Smooth slide-in effect */
+.mobile-menu {
+    transform: translateX(100%);
+    right: 0;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+/* Make close button clickable */
+.mobile-menu-header button {
+    position: relative;
+    z-index: 1000000;
+}
+
+/* Improve mobile toggle appearance */
+.mobile-toggle span {
+    transition: all 0.3s ease;
+}
+
+/* Animate hamburger to X when active */
+body.menu-open .mobile-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+body.menu-open .mobile-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+body.menu-open .mobile-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
