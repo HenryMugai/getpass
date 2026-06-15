@@ -11,6 +11,12 @@ GetPass | Events
 
 {% block content %}
 
+<<<<<<< HEAD
+=======
+<!-- =========================================
+     EVENTS HERO
+========================================= -->
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
 <section class="events-hero">
     <div class="events-hero-overlay"></div>
 
@@ -21,17 +27,62 @@ GetPass | Events
             LIVE EVENTS
         </span>
 
+<<<<<<< HEAD
         <h1>Discover Amazing Experiences</h1>
 
         <p>
             Explore concerts, conferences, festivals, nightlife
             and unforgettable experiences happening around you.
+=======
+        <h1>
+            Discover Amazing Experiences
+        </h1>
+
+        <p>
+            Explore concerts, conferences, festivals, nightlife,
+            and unforgettable experiences happening across Kenya.
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
         </p>
 
         <!-- SEARCH FORM -->
         <form method="GET"
               action="{{ url_for('public.events') }}"
               class="events-search-form">
+<<<<<<< HEAD
+=======
+
+            <!-- Search -->
+            <div class="search-input-group">
+                <i class="fas fa-magnifying-glass"></i>
+                <input type="text"
+                       name="search"
+                       placeholder="Search events, venues, counties or categories..."
+                       value="{{ search or '' }}">
+            </div>
+
+            <!-- Category Filter -->
+            <div class="search-select-group">
+                <select name="category">
+                    <option value="">All Categories</option>
+
+                    {% for cat in categories %}
+                    <option value="{{ cat.category }}"
+                            {% if selected_category == cat.category %}selected{% endif %}>
+                        {{ cat.category }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="search-btn">
+                Explore Events
+            </button>
+
+        </form>
+
+    </div>
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
 
             <div class="search-input-group">
                 <i class="fas fa-magnifying-glass"></i>
@@ -64,6 +115,12 @@ GetPass | Events
     </div>
 </section>
 
+<<<<<<< HEAD
+=======
+<!-- =========================================
+     EVENTS LISTING
+========================================= -->
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
 <section class="events-section">
     <div class="container">
 
@@ -73,7 +130,14 @@ GetPass | Events
                 <span class="section-mini-title">
                     DISCOVER EVENTS
                 </span>
+<<<<<<< HEAD
                 <h2>Published Events</h2>
+=======
+
+                <h2>
+                    Published Events
+                </h2>
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
             </div>
 
             <p>
@@ -81,7 +145,11 @@ GetPass | Events
             </p>
         </div>
 
+<<<<<<< HEAD
         <!-- RESULTS COUNT -->
+=======
+        <!-- RESULTS SUMMARY -->
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
         {% if events %}
         <div class="events-results-summary">
             <p>
@@ -103,8 +171,13 @@ GetPass | Events
                     <!-- IMAGE -->
                     <div class="event-image-wrapper">
 
+<<<<<<< HEAD
                         {% if event.event_image %}
                             <img src="{{ event.event_image }}"
+=======
+                        {% if event.banner_image %}
+                            <img src="{{ event.banner_image }}"
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                                  alt="{{ event.title }}">
                         {% else %}
                             <div class="event-image-placeholder">
@@ -115,7 +188,11 @@ GetPass | Events
                         <div class="event-overlay"></div>
 
                         <!-- FEATURED BADGE -->
+<<<<<<< HEAD
                         {% if event.featured %}
+=======
+                        {% if event.is_featured %}
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                         <div class="featured-badge">
                             <i class="fas fa-star"></i>
                             Featured
@@ -124,7 +201,11 @@ GetPass | Events
 
                         <!-- PRICE -->
                         <div class="event-price {% if event.starting_price == 0 %}free{% endif %}">
+<<<<<<< HEAD
                             {% if event.is_free or event.starting_price == 0 %}
+=======
+                            {% if event.starting_price == 0 %}
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                                 Free
                             {% else %}
                                 From KSh {{ "{:,.0f}".format(event.starting_price) }}
@@ -141,13 +222,22 @@ GetPass | Events
 
                             <span>
                                 <i class="fas fa-location-dot"></i>
+<<<<<<< HEAD
                                 {{ event.venue or event.location or 'Venue TBA' }}
+=======
+                                {{ event.venue_name or 'Venue TBA' }}
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                             </span>
 
                             <span>
                                 <i class="fas fa-calendar"></i>
+<<<<<<< HEAD
                                 {% if event.start_date %}
                                     {{ event.start_date.strftime('%d %b %Y') }}
+=======
+                                {% if event.event_date %}
+                                    {{ event.event_date.strftime('%d %b %Y') }}
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                                 {% else %}
                                     Upcoming
                                 {% endif %}
@@ -164,6 +254,7 @@ GetPass | Events
                         {% if event.category %}
                         <div class="event-category">
                             {{ event.category }}
+<<<<<<< HEAD
                         </div>
                         {% endif %}
 
@@ -178,13 +269,60 @@ GetPass | Events
                                 {% if event.description|length > 140 %}...{% endif %}
                             </p>
                         {% endif %}
+=======
+                        </div>
+                        {% endif %}
+
+                        <!-- LOCATION DETAILS -->
+                        {% if event.venue_address or event.county %}
+                        <p class="event-location">
+                            {{ event.venue_address or '' }}
+                            {% if event.venue_address and event.county %}, {% endif %}
+                            {{ event.county or '' }}
+                        </p>
+                        {% endif %}
+
+                        <!-- DESCRIPTION -->
+                        {% if event.description %}
+                        <p class="event-description">
+                            {{ event.description[:140] }}
+                            {% if event.description|length > 140 %}...{% endif %}
+                        </p>
+                        {% endif %}
+
+                        <!-- STATS -->
+                        <div class="event-stats">
+
+                            <span>
+                                <i class="fas fa-ticket"></i>
+                                {{ event.ticket_types }}
+                                Ticket Type{% if event.ticket_types != 1 %}s{% endif %}
+                            </span>
+
+                            <span>
+                                <i class="fas fa-eye"></i>
+                                {{ event.views_count or 0 }}
+                                Views
+                            </span>
+
+                        </div>
+
+                        <!-- ACTION BUTTON -->
+                        <div class="event-actions">
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
 
                         <!-- ACTION -->
                         <div class="event-actions">
                             <a href="/events/{{ event.slug }}"
                                class="event-btn">
                                 View Event
+<<<<<<< HEAD
                                 <i class="fas fa-arrow-right"></i>
+=======
+
+                                <i class="fas fa-arrow-right"></i>
+
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                             </a>
                         </div>
 
@@ -196,13 +334,23 @@ GetPass | Events
 
             {% else %}
 
+<<<<<<< HEAD
+=======
+                <!-- EMPTY STATE -->
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
                 <div class="empty-events">
 
                     <div class="empty-icon">
                         <i class="fas fa-calendar-xmark"></i>
                     </div>
 
+<<<<<<< HEAD
                     <h3>No Events Available</h3>
+=======
+                    <h3>
+                        No Events Available
+                    </h3>
+>>>>>>> f941ac10000991d49d84309a786eb4d37c52228f
 
                     <p>
                         There are currently no published events.
